@@ -1,32 +1,21 @@
-module.exports = function (sequelize, DataTypes) {
-    var Burger = sequelize.define("burgers", {
-        consumed: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: 0,
-            allowNull: false
-        }
-    }, {
-        freezeTableName: true
-    });
+const orm = require("../config/orm");
 
-    Burger.associate = function (models) {
-        Burger.belongsTo(models.patties, {
-            foreignKey: {name: 'pattyId', allowNull: false},
-            onDelete: "cascade"
+const burger = {
+    all: (cb)=> {
+        orm.all("burgers", res=> {
+          cb(res);
         });
-        Burger.belongsTo(models.buns, {
-            foreignKey: {name: 'bunId', allowNull: false},
-            onDelete: "cascade"
+       },     // The variables cols and vals are arrays.
+    create: (cols, vals, cb)=> {
+        orm.create("burgers", cols, vals,res=> {
+            cb(res);
         });
-        Burger.belongsTo(models.toppings, {
-            foreignKey: {name: 'toppingId', allowNull: false},
-            onDelete: "cascade"
+    },
+    update: (objColVals, condition, cb)=> {
+        orm.update("burgers", objColVals, condition,res=> {
+            cb(res);
         });
-        Burger.hasOne(models.customers, {
-            foreignKey: {name: 'burgerId', allowNull: false},
-            onDelete: "cascade"
-        });
+    }
 };
 
-return Burger;
-};
+module.exports = burger;

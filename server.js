@@ -16,7 +16,7 @@ var exHandleb = require("express-handlebars");
 app.engine("handlebars", exHandleb({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-var routes = require("./controllers/burgers_controller.js");
+var routes = require("./controllers/burger_controllers.js");
 app.use(routes);
 
 db.sequelize.sync({ force: false }).then(function () {
